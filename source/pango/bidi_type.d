@@ -109,7 +109,7 @@ pure Direction unicharDirection(dchar ch) {
 }
 
 Direction findBaseDir(string text) {
-    return cast(Direction)pango_find_base_dir(text.ptr, text.length);
+    return cast(Direction)pango_find_base_dir(text.ptr, cast(int)text.length);
 }
 
 

@@ -55,7 +55,7 @@ struct Coverage
 
     this(ubyte[] bytes)
     {
-        initialize(pango_coverage_from_bytes (bytes.ptr, bytes.length), Transfer.Full);
+        initialize(pango_coverage_from_bytes (bytes.ptr, cast(int)bytes.length), Transfer.Full);
     }
 
     Coverage copy()

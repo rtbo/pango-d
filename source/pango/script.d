@@ -253,7 +253,7 @@ struct TextScriptRange {
 
     this(string text) {
         text_ = text;
-        ptr_ = pango_script_iter_new(text_.ptr, text_.length);
+        ptr_ = pango_script_iter_new(text_.ptr, cast(int)text_.length);
         if (text.length == 0) {
             empty_ = true;
         }

@@ -38,8 +38,8 @@ class Context : D_GObject
 
     this()
     {
-        assert(false, "do not create context directly, use FontMap.createContext instead");
         super(cast(GObject*)pango_context_new(), Transfer.Full);
+        assert(false, "do not create context directly, use FontMap.createContext instead");
     }
 
 
@@ -151,7 +151,8 @@ class Context : D_GObject
     */
     Item[] itemize(string text, AttrList attrs, AttrIterator cachedIter)
     {
-        GList *list = pango_itemize(nativePtr, text.ptr, 0, text.length, attrs.nativePtr, cachedIter.nativePtr);
+        GList *list = pango_itemize(nativePtr, text.ptr, 0, cast(int)text.length,
+            attrs.nativePtr, cachedIter.nativePtr);
         scope(exit) g_list_free(list);
         return dobjsFromGList!Item(list, Transfer.Full);
     }
@@ -160,7 +161,7 @@ class Context : D_GObject
     Item[] itemizeWithBaseDir(Direction direction, string text, AttrList attrs, AttrIterator cachedIter)
     {
         GList *list = pango_itemize_with_base_dir(nativePtr, cast(PangoDirection)direction,
-                                                  text.ptr, 0, text.length,
+                                                  text.ptr, 0, cast(int)text.length,
                                                   attrs.nativePtr, cachedIter.nativePtr);
         scope(exit) g_list_free(list);
         return dobjsFromGList!Item(list, Transfer.Full);

@@ -112,7 +112,7 @@ class GlyphString
     int[] logicalWidths(string text, int embeddingLevel) {
         if (text.length == 0) return [];
         int[] res = new int[g_utf8_strlen(text.ptr, text.length)];
-        pango_glyph_string_get_logical_widths(nativePtr, cast(char*)text.ptr, text.length, embeddingLevel, res.ptr);
+        pango_glyph_string_get_logical_widths(nativePtr, cast(char*)text.ptr, cast(int)text.length, embeddingLevel, res.ptr);
         return res;
     }
 
@@ -120,7 +120,7 @@ class GlyphString
         int res;
         // const cast of text after checking in C source code that no modification
         // is done on text (pointer is moved, dereferenced, but pointed-to data is not modified)
-        pango_glyph_string_index_to_x(nativePtr, cast(char*)text.ptr, text.length,
+        pango_glyph_string_index_to_x(nativePtr, cast(char*)text.ptr, cast(int)text.length,
                                       &analysis.pangoStruct, index, trailing, &res);
         return res;
     }
@@ -130,7 +130,7 @@ class GlyphString
         int trail;
         // const cast of text after checking in C source code that no modification
         // is done on text (pointer is moved, dereferenced, but pointed-to data is not modified)
-        pango_glyph_string_x_to_index(nativePtr, cast(char*)text.ptr, text.length,
+        pango_glyph_string_x_to_index(nativePtr, cast(char*)text.ptr, cast(int)text.length,
                                       &analysis.pangoStruct, xPos, &ind, &trail);
         trailing = cast(bool)trail;
         return ind;
@@ -141,14 +141,15 @@ class GlyphString
     */
     static GlyphString shape(string text, const(Analysis)*analysis) {
         auto str = new GlyphString();
-        pango_shape(text.ptr, text.length, &analysis.pangoStruct, str.nativePtr);
+        pango_shape(text.ptr, cast(int)text.length, &analysis.pangoStruct, str.nativePtr);
         return str;
     }
 
 
     static GlyphString shapeFull(string text, string paragraph, const(Analysis)*analysis) {
         auto str = new GlyphString();
-        pango_shape_full(text.ptr, text.length, paragraph.ptr, paragraph.length, &analysis.pangoStruct, str.nativePtr);
+        pango_shape_full(text.ptr, cast(int)text.length,
+            paragraph.ptr, cast(int)paragraph.length, &analysis.pangoStruct, str.nativePtr);
         return str;
     }
 

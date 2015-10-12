@@ -77,23 +77,26 @@ alias LogAttr = PangoLogAttr;
  */
 LogAttr[] pangoBreak(string text, Analysis *analysis)
 {
-    int len = g_utf8_strlen(text.ptr, text.length)+1;
+    glong len = g_utf8_strlen(text.ptr, text.length)+1;
     if (!len) return [];
     LogAttr[] res = new LogAttr[len];
-    pango_break(text.ptr, text.length, &analysis.pangoStruct, res.ptr, len);
+    pango_break(text.ptr, cast(int)text.length, &analysis.pangoStruct,
+        res.ptr, cast(int)len);
     return res;
 }
 
 void pangoFindParagraphBoundary(string text, out int paragraphDelimiterIndex, out int nextParagraphStart) {
-    pango_find_paragraph_boundary(text.ptr, text.length, &paragraphDelimiterIndex, &nextParagraphStart);
+    pango_find_paragraph_boundary(text.ptr, cast(int)text.length,
+        &paragraphDelimiterIndex, &nextParagraphStart);
 }
 
 LogAttr[] pangoGetLogAttrs(string text, int level, Language language)
 {
-    int len = g_utf8_strlen(text.ptr, text.length)+1;
+    glong len = g_utf8_strlen(text.ptr, text.length)+1;
     if (!len) return [];
     LogAttr[] res = new LogAttr[len];
-    pango_get_log_attrs(text.ptr, text.length, level, language.nativePtr, res.ptr, len);
+    pango_get_log_attrs(text.ptr, cast(int)text.length, level,
+        language.nativePtr, res.ptr, cast(int)len);
     return res;
 }
 
@@ -104,9 +107,9 @@ LogAttr[] pangoGetLogAttrs(string text, int level, Language language)
  */
 LogAttr[] pangoDefaultBreak(string text, Analysis *analysis)
 {
-    int len = g_utf8_strlen(text.ptr, text.length)+1;
+    glong len = g_utf8_strlen(text.ptr, text.length)+1;
     if (!len) return [];
     LogAttr[] res = new LogAttr[len];
-    pango_default_break(text.ptr, text.length, &analysis.pangoStruct, res.ptr, len);
+    pango_default_break(text.ptr, cast(int)text.length, &analysis.pangoStruct, res.ptr, cast(int)len);
     return res;
 }

@@ -116,7 +116,7 @@ class Layout : D_GObject
     }
 
     @property void text(string text) {
-        pango_layout_set_text(nativePtr, text.ptr, text.length);
+        pango_layout_set_text(nativePtr, text.ptr, cast(int)text.length);
     }
 
     @property string text() {
@@ -128,11 +128,11 @@ class Layout : D_GObject
     }
 
     void setMarkup(string markup) {
-        pango_layout_set_markup(nativePtr, markup.ptr, markup.length);
+        pango_layout_set_markup(nativePtr, markup.ptr, cast(int)markup.length);
     }
 
     void setMarkupWithAccel(string markup, dchar accelMarker, out dchar accelChar) {
-        pango_layout_set_markup_with_accel(nativePtr, markup.ptr, markup.length, accelMarker, &accelChar);
+        pango_layout_set_markup_with_accel(nativePtr, markup.ptr, cast(int)markup.length, accelMarker, &accelChar);
     }
 
     @property void fontDescription (const(FontDescription) desc) {
